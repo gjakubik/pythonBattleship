@@ -69,7 +69,7 @@ class Board():
         if placementType.lower() == 'random':
             for size in shipSizes:
                 self.placeShip(size, 0, 9, 0, 9)
-                print(f'Placed {size} ship')
+                #print(f'Placed {size} ship')
 
     def placeShip(self, shipSize, minRow, maxRow, minCol, maxCol):
         placedShip = False

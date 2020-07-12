@@ -2,25 +2,30 @@
 
 from Board import Board
 from Player import Player
+from BattleshipGUI import BattleshipGUI
 
-p1 = Player(1)
-p2 = Player(2)
+def playBattleship():
 
-p1.setPlaceStrat('random')
-p2.setPlaceStrat('random')
+    players =[Player(i) for i in range(0, 4)]
 
-p1.setShotStrat('random')
-p2.setShotStrat('random')
+    myGUI = BattleshipGUI()
 
-p1.placeShips()
-p2.placeShips()
+    for player in players:
+        player.setPlaceStrat('random')
+        player.setShotStrat('random')
+        player.placeShips()
 
-p1.shootShips(p2)
+    myGUI.setupBoards(players)
+    gameOn = True
+    i = 0
 
-print(p1.shotStrat)
-
-p1.board.printShips()
-p2.board.printShips()
-
-p1.printBoard()
-p2.printBoard()
+    #myGUI.root.mainloop()
+    while gameOn:
+        currentPlayer = players[i]
+        if i == 3:
+            i = 0
+        else:
+            i += 1
+        
+        
+        myGUI.updatePlayerBoard(players[i+1])
