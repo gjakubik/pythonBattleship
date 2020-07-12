@@ -1,9 +1,10 @@
-from battleship import Battleship
+#!/usr/bin/env python3
+
+from Battleship import Battleship
+from BattleshipGUI import BattleshipGUI
 
 def main():
-    game = Battleship()
-
-    game.play()
+    game = BattleshipGUI()
 
 
 if __name__ == '__main__':

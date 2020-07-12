@@ -2,44 +2,67 @@
 
 from Board import Board
 from Player import Player
-from BattleshipGUI import BattleshipGUI
+import tkinter as tk
+from tkinter import *
+import time
 
 class Battleship():
 
     def __init__(self):
         self.players =[Player(i) for i in range(0, 4)]
-
-        self.myGUI = BattleshipGUI()
+        self.cellWidth = 3
 
         for player in self.players:
             player.setPlaceStrat('random')
             player.setShotStrat('random')
             player.placeShips()
 
-            self.myGUI.setupBoards(players)
+    def play(self, root, boardFrames):
         # Set vars to keep track of game status and current player
-        self.gameOn = True
-        self.i = 0
+        gameOn = True
+        i = 0
+        n = 0
 
-    def play():
-        while self.gameOn:
+        while gameOn:
+            n += 1
             currentPlayer = self.players[i]
-            nextPlayer = self.findNextPlayer(players, i)
+            nextPlayer = self.findNextPlayer(self.players, i)
             if i == 3:
                 i = 0
             else:
                 i += 1
         
             currentPlayer.shootShips(nextPlayer)
-            self.myGUI.updatePlayerBoard(nextPlayer)
-            self.gameOn = False
+            self.updatePlayerBoard(root, boardFrames, nextPlayer)
+            
+            if n > 10:
+                gameOn = False
 
 
 
-    def findNextPlayer(players, i):
-        while players[i+1].inGame == False:
+    def findNextPlayer(self, players, i):
+        while players[i+1 if i != 3 else 0].inGame == False:
             i += 1
 
         return players[i+1]
+
+    def updatePlayerBoard(self, root, boardFrames, player):
+        print('updating board')
+        print('Printing new labels')
+        for row in range(0, 10):
+            for col in range(0, 10):
+                state = player.board.array[row][col]
+                tempColor = '#05cde3'
+                if state == 1:
+                    tempColor = "white"
+                elif state == 2:
+                    tempColor = "#a3a3a3"
+                elif state == 3:
+                    tempColor = "#f20a0a"
+
+                newLabel = tk.Label(boardFrames[player.playerNum], bg=tempColor, width=self.cellWidth, borderwidth=2, relief='groove')
+                newLabel.grid(row=row+1, column=col+1, padx=0, pady=0)
+
+        time.sleep(1)
 
 
