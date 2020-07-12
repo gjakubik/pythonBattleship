@@ -4,28 +4,42 @@ from Board import Board
 from Player import Player
 from BattleshipGUI import BattleshipGUI
 
-def playBattleship():
+class Battleship():
 
-    players =[Player(i) for i in range(0, 4)]
+    def __init__(self):
+        self.players =[Player(i) for i in range(0, 4)]
 
-    myGUI = BattleshipGUI()
+        self.myGUI = BattleshipGUI()
 
-    for player in players:
-        player.setPlaceStrat('random')
-        player.setShotStrat('random')
-        player.placeShips()
+        for player in self.players:
+            player.setPlaceStrat('random')
+            player.setShotStrat('random')
+            player.placeShips()
 
-    myGUI.setupBoards(players)
-    gameOn = True
-    i = 0
+            self.myGUI.setupBoards(players)
+        # Set vars to keep track of game status and current player
+        self.gameOn = True
+        self.i = 0
 
-    #myGUI.root.mainloop()
-    while gameOn:
-        currentPlayer = players[i]
-        if i == 3:
-            i = 0
-        else:
+    def play():
+        while self.gameOn:
+            currentPlayer = self.players[i]
+            nextPlayer = self.findNextPlayer(players, i)
+            if i == 3:
+                i = 0
+            else:
+                i += 1
+        
+            currentPlayer.shootShips(nextPlayer)
+            self.myGUI.updatePlayerBoard(nextPlayer)
+            self.gameOn = False
+
+
+
+    def findNextPlayer(players, i):
+        while players[i+1].inGame == False:
             i += 1
-        
-        
-        myGUI.updatePlayerBoard(players[i+1])
+
+        return players[i+1]
+
+
